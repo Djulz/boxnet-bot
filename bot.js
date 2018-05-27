@@ -1,10 +1,45 @@
 const request = require('request');
 var io = require('socket.io-client');
+var AlphaBeta = require('alphabeta');
+
 
 class Bot {
 
     constructor(socket) {
         this.socket = socket;
+        //this.ab = thissetupAB();
+    }
+
+    score() {
+
+    }
+
+    generateMoves(prevState) {
+        var moves = [];
+        for (var x = -2; x <= +2; x++)
+            for (var y = -2; y <= +2; y++)
+                {
+                    prevState
+                }
+    }
+
+    checkWinConditions(state) {
+        return false;
+    }
+
+    uniqueKey(state) {
+        return JSON.stringify(state);
+    }
+
+    setupAB(state) {
+        return AlphaBetaConstructor({
+            scoreFunction: scoreFunction,
+            generateMoves: generateMoves,
+            checkWinConditions: checkWinConditions,
+            uniqueKey: uniqueKey,
+            state: state,
+            depth: 1
+        });
     }
 
     connect(serverBase, accountName) {
@@ -51,6 +86,7 @@ class Bot {
 
                     // //Next units
                     // updateNextUnits(data.nextUnits);
+                    setupAB(data.map);
 
                     // //Init map
                     // map = new DrawableMap(data.map.width, data.map.height);
@@ -64,11 +100,11 @@ class Bot {
                     console.log("playing");
                     this.int_sendInput = setInterval(() => {
                         socket.emit("input", {
-                            x: Math.floor(Math.random()*50), 
-                            y: Math.floor(Math.random()*30),
+                            x: Math.floor(Math.random() * 50),
+                            y: Math.floor(Math.random() * 30),
                             dir: 0
                         });
-                    }, 5000)
+                    }, 5000);
                 });
 
                 socket.on("gameEnd", (data) => {
